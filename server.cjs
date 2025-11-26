@@ -15,7 +15,7 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: "*", // Allow all origins (Replace with your Netlify URL in production for security)
+    origin: "https://gorgeous-hummingbird-a428ee.netlify.app/", // Allow all origins (Replace with your Netlify URL in production for security)
     methods: ["GET", "POST"]
   }
 });
