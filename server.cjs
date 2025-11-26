@@ -15,7 +15,7 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: "https://gorgeous-hummingbird-a428ee.netlify.app/", // Allow all origins (Replace with your Netlify URL in production for security)
+    origin: "https://gorgeous-hummingbird-a428ee.netlify.app/", // Votre URL Netlify pour CORS
     methods: ["GET", "POST"]
   }
 });
@@ -101,24 +101,3 @@ io.on('connection', (socket) => {
         // Merge state
         room.state = { ...room.state, ...updates };
         room.lastActive = Date.now();
-        
-        // Broadcast new state
-        io.to(roomId).emit('game_updated', { 
-            state: room.state, 
-            players: { 
-                P1: { connected: !!room.players.P1.connected }, 
-                P2: { connected: !!room.players.P2.connected } 
-            } 
-        });
-    }
-  });
-
-  socket.on('disconnect', () => {
-    // Find rooms where this socket was a player
-    for (const [roomId, room] of Object.entries(rooms)) {
-        if (room.players.P1.socketId === socket.id) {
-            room.players.P1.connected = false;
-        } else if (room.players.P2.socketId === socket.id) {
-            room.players.P2.connected = false;
-        } else {
-            continue;
